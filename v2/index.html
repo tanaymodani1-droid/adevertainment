@@ -1967,6 +1967,20 @@ body:has(.lwg-dock) .wins>.full{grid-column:1/-1}
 @media (max-width:1000px){body:has(.lwg-dock) .wins{grid-template-columns:70px minmax(0,1fr)}.wins>.lwg-dock{grid-row:span 2}.ldk b{display:none}}
 .lmh h3{color:#111!important;-webkit-text-stroke:0!important;text-shadow:none!important}
 .lconv h3,.lapc h2,.lcall b{-webkit-text-stroke:0}
+/* calls on the Sales desk: a corner window, so the teammate can keep working */
+#lwcall{inset:auto 18px 18px auto;display:block;background:none;padding:0;width:min(430px,94vw);z-index:115;pointer-events:none}
+#lwcall>*{pointer-events:auto}
+#lwcall .lcall{width:100%;max-height:78vh;border-radius:26px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.65),0 0 0 3px #34c759}
+#lwcall .lcall.ring{padding:18px 18px 34px}#lwcall .lcall.ring .lav.big{width:84px;height:84px;font-size:48px}
+#lwcall .lcallb button{width:66px;height:66px;font-size:28px}#lwcall .lcallb button span{top:72px}
+#lwcall .lcall .lthread{max-height:30vh}
+.wins>.lwg-list>.llist{display:block!important}
+/* while a call is ringing or live, keep the desk clear of the call window */
+@media (min-width:1100px){body.lwcalling:has(.lwg-dock) .wins{margin-right:450px;max-width:none}}
+@media (min-width:1100px){body.lwcalling:has(.lwg-dock) .wins{margin:0 452px 0 14px;max-width:none;grid-template-columns:84px 240px minmax(0,1fr)}}
+.lconv,.lapp1,.lmain{min-width:0}.lops button span,.lb{overflow-wrap:anywhere}
+body:has(.lwg-dock) #main{max-width:1500px}
+@media (min-width:1100px){body.lwcalling:has(.lwg-dock) #main{max-width:none;margin:0}}
 </style></head><body class="nocopy">
 <div id="city" aria-hidden="true"><i></i><i></i><i></i><span class="wg wy"></span><span class="wg wp"></span><span class="wg wb"></span><span class="wg wbr"></span><span class="wg wr"></span><span class="wg wg2"></span><div class="lampw"><div class="cone"></div><div class="dust"></div><div class="lamp"></div><div class="bulb"></div></div><div class="crowd"></div>
 <svg class="doodle d1" viewBox="0 0 120 120"><path d="M60 8 L68 50 L112 60 L68 70 L60 112 L52 70 L8 60 L52 50 Z"/></svg>
@@ -2009,13 +2023,12 @@ body:has(.lwg-dock) .wins>.full{grid-column:1/-1}
   <div class="tbar" id="hd"><span class="logo">ADVERTAINMENT</span><span id="who"></span><span class="pairb" id="pairb" hidden></span><span class="roleb" id="roleb" hidden></span><span id="timer"></span><button type="button" class="lobtn" data-logout title="Log out of this laptop">⎋ Log out</button></div>
   <div id="banner" hidden></div>
   <section id="home" hidden><div class="home">
-    <h1>What is this device for?</h1>
-    <p class="mut">Your team uses <b>two laptops and one phone</b>. Give each one a job.</p>
+    <h1>What is this laptop for?</h1>
+    <p class="mut">Your team has <b>two laptops</b>. Give each one a job.</p>
     <p class="warnl">⚠ Choose carefully. You cannot switch while you are logged in.</p>
     <div class="choices">
-      <button type="button" class="choice c-game" data-p="game"><span class="ci">💻</span><em class="chl">LAPTOP 1</em><b>Sales desk</b><span>WhatsApp, Instagram, Mail and the Store. Win customers all week.</span></button>
+      <button type="button" class="choice c-game" data-p="game"><span class="ci">💻</span><em class="chl">LAPTOP 1</em><b>Sales desk</b><span>Calls, WhatsApp, Instagram, Mail and the Store. Two of you sit here.</span></button>
       <button type="button" class="choice c-notes" data-p="notes"><span class="ci">🎨</span><em class="chl">LAPTOP 2</em><b>Studio + manager</b><span>Build the campaign deck, and approve big deals.</span></button>
-      <button type="button" class="choice c-phone" data-p="phone"><span class="ci">📱</span><em class="chl">YOUR PHONE</em><b>Phone line</b><span>Customers call this phone. Pick up and talk to them.</span></button>
     </div>
   </div></section>
   <div id="main" hidden><div class="wins" id="wins"></div></div>
@@ -2877,7 +2890,7 @@ const LW_CHD={ig:'Young people scrolling reels and stories',inf:'Fans of creator
 let lwApp='wa',lwOpen={},lwProg={},lwRes=false,lwResTab=0,lwPlan=null,lwFlash='',lwSeen=null,lwRing=null,lwInCall='',lwRKey='';
 const lwE=d=>Math.max(0,((d.tn||now())-(d.SS.s1||now()))/1000);
 const lwW=d=>lwWeek(T,d.pr,me.code,lwE(d));
-const lwPhoneOn=()=>!!(T&&T.ph&&now()-(+T.ph)<16000);
+const lwPhoneOn=()=>false;   // calls ring on the Sales desk laptop
 const lwCx=(d,l)=>lwCtx(d.pr,me.code,l.id,l.fit);
 const lwAll=W=>W.days.flat().filter(l=>l.arrived);
 const lwNeeds=l=>l.arrived&&!l.res&&!l.missed;
@@ -2930,7 +2943,7 @@ function lwHud(d,W){const st=W.st,ph=W.ph,lab=ph.k==='meet'?(ph.d===1?'PLANNING 
  const cr=lwCrises(d,ph).find(c=>c.open),now_=ph.k==='meet'?'Agree tomorrow’s budget as a team, then press <b>Lock plan</b>.':ph.k==='end'?'Launch Week is over. Help your teammate finish the deck on the <b>design laptop</b>.':cr?'⚡ <b>CRISIS!</b> Decide together in the red box below, before the clock runs out.':'Customers are reaching out on every app. Watch the red badges and answer before they leave.';
  return{k:'lwhud',cls:'full',html:'<div class="lwhud"><div class="lwhr"><div class="lwday'+(ph.k==='meet'?' meet':ph.k==='end'?' end':'')+'"><span>'+lab+'</span><b class="lwclock" data-lwend="'+(ph.k==='end'?0:Math.round(now()+ph.left*1000))+'">'+(ph.k==='end'?'✔':fmt(ph.left*1000))+'</b></div>'
   +'<div class="lwst"><span>SALES</span><b>'+lwMoney(st.sales)+'</b></div><div class="lwst"><span>SPENT</span><b>'+lwMoney(st.spend)+'</b></div><div class="lwst big'+(st.profit<0?' neg':'')+'"><span>PROFIT</span><b>'+lwMoney(st.profit)+'</b></div><div class="lwst"><span>RATING</span><b>'+st.rating.toFixed(1)+' ★</b></div>'
-  +'<span class="lwsp"></span>'+(lwPhoneOn()?'<span class="lwph">📱 Phone line connected</span>':'<span class="lwph off">📱 No phone connected: calls ring here</span>')+'<button type="button" class="lwhb" data-lwres="1">📁 Research &amp; brief</button><button type="button" class="lwhb q" data-lwtut="1">❓</button></div>'
+  +'<span class="lwsp"></span>'+'<button type="button" class="lwhb" data-lwres="1">📁 Research &amp; brief</button><button type="button" class="lwhb q" data-lwtut="1">❓</button></div>'
   +'<div class="agnow'+(cr?' alarm':'')+'"><span class="agnowk">DO THIS NOW</span><p>'+now_+'</p></div></div>'}}
 function lwCrisisCard(d,W){const c=lwCrises(d,W.ph).find(x=>x.open);if(!c)return null;const E=c.E;return{k:'lwcr'+c.d,cls:'full',html:'<section class="lwcrisis"><span>⚡ CRISIS · EVERY BRAND IS HIT · DAY '+c.d+'</span><h2>'+esc(E.t)+'</h2><p>'+esc(crTx(E.x,d.pr))+'</p><div class="crclock" data-end="'+Math.round((d.SS.s1||0)+c.end*1000)+'" data-dur="90000"><i></i><b>--</b></div><div class="lops">'+E.o.map((o,i)=>'<button type="button" data-lwcr="'+c.d+'" data-o="'+i+'"><b>'+'ABC'[i]+'</b><span>'+esc(crTx(o[0],d.pr))+'</span></button>').join('')+'</div></section>'}}
 function lwPlanner(d,W){const ph=W.ph,dd=ph.d,cur=(T.lwb||{})[dd],locked=!!cur,P=lwPrice(d.pr),coin=LW_COINU*P;if(!lwPlan||lwPlan.d!==dd)lwPlan={d:dd,b:Object.assign({},cur||lwBud(T,dd))};const b=lwPlan.b,left=LW_COINS-lwCoins(b),by=W.st.by;
@@ -2960,7 +2973,7 @@ let lwVoices=[];try{const lv=()=>{lwVoices=speechSynthesis.getVoices()};lv();spe
 function lwSay(text,g){try{if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(text).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,''));const vs=lwVoices.filter(v=>/en[-_]IN/i.test(v.lang)),fv=vs.find(v=>/female|heera|veena|neerja|swara|kalpana/i.test(v.name)),mv=vs.find(v=>/male|ravi|rishi|prabhat|hemant/i.test(v.name)&&!/female/i.test(v.name));u.voice=(g==='f'?fv:mv)||vs[0]||lwVoices.find(v=>/^en/i.test(v.lang))||null;u.lang='en-IN';u.rate=1.02;u.pitch=g==='f'?1.15:.85;speechSynthesis.speak(u)}catch(e){}}
 function lwCallScreen(d,W){/* the ringing / in-call overlay (on the phone, or on laptop 1 if no phone is connected) */
  const L=lwAll(W).filter(l=>l.ch==='call'),F=lwFounders(d,W);const ringing=L.find(l=>lwNeeds(l)&&!(T.lws||{})[l.id]&&lwInCall!==l.id)||F.find(f=>!f.done&&!f.missed&&lwInCall!==f.id);const live=lwInCall&&(L.find(l=>l.id===lwInCall)||F.find(f=>f.id===lwInCall));
- let o=$('lwcall');if(!ringing&&!live){if(o)o.remove();lwRingStop();return}
+ let o=$('lwcall');document.body.classList.toggle('lwcalling',!!(ringing||live));if(!ringing&&!live){if(o)o.remove();lwRingStop();return}
  if(!o){o=document.createElement('div');o.id='lwcall';document.body.appendChild(o)}
  if(live){lwRingStop();let h;if(live.founder){h='<div class="lcall in"><div class="lcallh"><span class="lav big">👔</span><b>Founder · '+esc(d.pr.brand)+'</b><i>Founder call '+live.n+' · '+esc(live.t)+'</i></div><div class="lthread"><div class="lb them">'+esc(live.x)+'</div></div><div class="ltray">'+(live.done?'<div class="lres mid"><b>✔ Noted</b><p>Answer this in your deck. Tell your teammate on the design laptop.</p></div><button type="button" class="lgo" data-lhang="1">Hang up</button>':'<div class="lops"><button type="button" data-lfn="'+live.d+'"><b>✔</b><span>“Noted. We will answer this in our campaign deck.”</span></button></div>')+'</div></div>'}
   else{const c=lwCx(d,live),who=lwSc(live.sid).who(c);h='<div class="lcall in"><div class="lcallh"><span class="lav big">'+(who.av||(c.g==='f'?'👩':'👨'))+'</span><b>'+esc(who.nm)+'</b><i>'+esc(who.sub||'')+'</i><span class="lcallt">🔊 On call</span></div><div class="lthread">'+lwBubbles(live,lwInit(live,c))+'</div><div class="ltray">'+lwControls(d,live,c)+(live.res?'<button type="button" class="lgo" data-lhang="1">Hang up</button>':'')+'</div></div>'}
@@ -2970,7 +2983,7 @@ function lwCallScreen(d,W){/* the ringing / in-call overlay (on the phone, or on
 function lwNotify(d,W){const all=lwAll(W);if(lwSeen===null){lwSeen=new Set(all.map(l=>l.id));return}all.forEach(l=>{if(lwSeen.has(l.id))return;lwSeen.add(l.id);if(l.ch==='call')return;const c=lwCx(d,l),who=lwSc(l.sid).who(c);if(pane==='game')lwToast(l.ch,who.nm,lwFill(lwSc(l.sid).open,c).split('\n').pop().slice(0,90),l.id)})}
 function lwAfterPaint(d){const fp=$('lwrp');if(d.view!=='hunt'){if(fp)fp.hidden=true;const o=$('lwcall');if(o)o.remove();lwRingStop();return}
  if(pane==='game'){let p=$('lwrp');if(!p){p=document.createElement('aside');p.id='lwrp';p.className='crfp lwrp';document.body.appendChild(p)}p.hidden=!lwRes;p.classList.toggle('open',lwRes);if(lwRes){const k=lwResTab+'|'+d.pr.n;if(k!==lwRKey){lwRKey=k;p.innerHTML=lwResearch(d);p.scrollTop=0}}}
- const W=lwW(d);if(W.ph.k==='day'||W.ph.k==='end'){lwNotify(d,W);const onPhone=pane==='phone',phoneOn=lwPhoneOn();if(onPhone||(pane==='game'&&!phoneOn))lwCallScreen(d,W);else{const o=$('lwcall');if(o)o.remove();lwRingStop()}}
+ const W=lwW(d);if(W.ph.k==='day'||W.ph.k==='end'){lwNotify(d,W);const onPhone=pane==='phone',phoneOn=lwPhoneOn();if(onPhone||(pane==='game'&&!phoneOn))lwCallScreen(d,W);else{const o=$('lwcall');if(o)o.remove();lwRingStop();document.body.classList.remove('lwcalling')}}
  document.querySelectorAll('[data-lwend]').forEach(el=>{const end=+el.dataset.lwend;if(!end)return;const l=Math.max(0,end-now());if(el.classList.contains('lwclock')||el.classList.contains('lclock'))el.textContent=el.classList.contains('lclock')?Math.ceil(l/1000)+'s':fmt(l);else{const p=Math.min(1,l/((+el.dataset.dur||120)*1000));el.style.setProperty('--p',p);el.classList.toggle('low',p<.3)}});
  document.querySelectorAll('.crclock[data-end]').forEach(c=>{const l=Math.max(0,+c.dataset.end-now()),p=Math.min(1,l/(+c.dataset.dur));c.querySelector('b').textContent=Math.ceil(l/1000)+'s';c.querySelector('i').style.width=(p*100)+'%';c.classList.toggle('low',l<20000)});
  const cr=lwCrises(d,W.ph).find(c=>c.open);if(cr&&lwFlash!==cr.id&&pane==='game'){lwFlash=cr.id;crBreaking(d.pr,cr.d-1)}
@@ -3028,7 +3041,7 @@ let tutOpen=false,lwTutStep=0,lwTutPick=-1;
 const lwTutDone=()=>{try{return localStorage.getItem('adv_lwtut_'+(me&&me.code))==='1'}catch(e){return true}};
 function agTut(d,inGame){const pr=d.pr,B=pr?esc(pr.brand):'your brand',P=pr?esc(String(pr.product).toLowerCase()):'new product',C=pr?esc(pr.city):'your city';
  const cards=[['🚀','Your ad just went live','You are the <b>in-house marketing team</b> of <b>'+B+'</b>, relaunching as a <b>'+P+'</b> brand in <b>'+C+'</b>. Your ad went live this morning, and customers are reaching out everywhere. This is <b>Launch Week</b>: 5 days, about 7 minutes each.'],
-  ['👥','Three jobs, three people','<b>📱 Phone line</b>: one of you logs in on your own phone. Customers <b>call</b> it, and you hear them speak.<br><b>💻 Sales desk</b>: this laptop. WhatsApp, Instagram, Mail and Store, each with red badges when someone is waiting.<br><b>💻 Studio + manager</b>: the other laptop builds the deck and <b>approves big discounts</b> when the Sales desk asks.'],
+  ['👥','Two laptops, three jobs','<b>💻 Sales desk (two of you)</b>: this laptop. One of you <b>answers the calls</b>. They ring in the corner and you hear the customer speak. The other handles <b>WhatsApp, Instagram, Mail and the Store</b>. Red badges show who is waiting.<br><b>💻 Studio + manager</b>: the other laptop builds the deck and <b>approves big discounts</b> when the Sales desk asks.'],
   ['🧠','Every customer is different','Some just want a price. Some need questions before they buy. Big companies want a <b>quote</b>, and may counter-offer. Creators show you their audience. <b>Read who they are</b> before you reply. Your real customer is hidden in 📁 Research.'],
   ['⚡','Meetings, crises and the founder','Before each day, all 3 of you agree how to spend the budget. Once a day a <b>crisis</b> hits every brand, so decide fast. The <b>founder</b> calls twice with things your deck must answer.'],
   ['✍️','Quick practice','A message comes in: <i>“Hi! I run a gym. Will your '+P+' work for my members’ workouts?”</i> If '+P+' is not made for gyms, what is the best reply?']];
@@ -3228,11 +3241,11 @@ const DEV=(()=>{let d='';try{d=localStorage.getItem('adv_dev')||''}catch(e){}if(
 let pane='home',paneFor='',nDirty=false,nSaveT=null,choosing=false;
 let pick='';const myRole=()=>pick;
 function setPane(p){const was=pane;pane=p;if(p==='notes'&&was!=='notes')loadNotes();$('home').hidden=p!=='home';$('main').hidden=!(p==='game'||p==='phone');document.body.classList.toggle('phonemode',p==='phone');$('notes').hidden=p!=='notes';
- const rb=$('roleb');rb.hidden=p==='home';rb.textContent=p==='game'?'💻 Sales desk':p==='phone'?'📱 Phone line':'🎨 Studio + manager';
+ const rb=$('roleb');rb.hidden=p==='home';rb.textContent=p==='game'?'💻 Sales desk':'🎨 Studio + manager';
  document.body.classList.toggle('notesmode',p==='notes');if(p==='notes'){fitCv();render();nTab('des');setTimeout(gLayout,30);try{gBriefOnce()}catch(e){}}window.scrollTo(0,0)}
 function applyRole(){const r=myRole()||'home';if(r!==pane){if(pane==='notes')closeText(true);setPane(r)}}
 document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{if(mode!=='app'||choosing||pick)return;const r=b.dataset.p,nm=r==='game'?'the Sales desk':r==='phone'?'the Phone line':'the Studio';
- ask('Use this laptop for '+nm+'?','This device will show only '+nm+'. You cannot switch while you are logged in. Your team needs one Sales desk laptop, one Studio laptop and one phone.','Yes, use it for '+nm,async()=>{choosing=true;
+ ask('Use this laptop for '+nm+'?','This laptop will show only '+nm+'. You cannot switch while you are logged in. Your other laptop should choose '+(r==='game'?'the Studio':'the Sales desk')+'.','Yes, use it for '+nm,async()=>{choosing=true;
   roleFX(r);pick=r;applyRole();choosing=false;const u={};u[DEV]=r;api('PATCH','teams/'+me.code+'/dev',u).catch(()=>{})})}));
 async function loadNotes(){const k=me.code;ops=[];redoS=[];sel=null;DP.innerHTML='<p><br></p>';$('dtitle').value='';dHist=[];dHi=-1;dRec();$('gtitle').value='';gSetDesign(null);gLoadSubState();nDirty=false;$('nsave').textContent='';render();
  try{const r=await api('GET',k,undefined,NROOM);if(!me||me.code!==k||nDirty||!r)return;DP.innerHTML=r.html?dClean(r.html):dTxt2Html(r.text);if(!DP.firstChild)DP.innerHTML='<p><br></p>';$('dtitle').value=r.title||'';dHist=[];dHi=-1;dRec();nCount();$('gtitle').value=r.gtitle||'';try{Object.keys(GIMGSRC).forEach(x=>{delete GIMGSRC[x];delete GIMG[x]});if(r.gimgs)Object.assign(GIMGSRC,JSON.parse(r.gimgs))}catch(e){}try{if(r.design)gSetDesign(JSON.parse(r.design))}catch(e){}let d=[];try{d=JSON.parse(r.draw||'[]')||[]}catch(e){}
