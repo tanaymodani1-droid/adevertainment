@@ -1,0 +1,344 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Advertainment · Round 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;800;900&family=Familjen+Grotesk:wght@400;500;600;700&family=VT323&family=Poppins:ital,wght@0,400;0,600;0,800;1,400&family=Montserrat:ital,wght@0,400;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Bebas+Neue&family=Anton&family=Oswald:wght@400;700&family=Raleway:wght@400;800&family=Lora:ital,wght@0,400;0,700;1,400&family=Merriweather:wght@400;700&family=Space+Grotesk:wght@400;700&family=Archivo+Black&family=Abril+Fatface&family=Righteous&family=Pacifico&family=Lobster&family=Dancing+Script:wght@400;700&family=Caveat:wght@400;700&family=Courier+Prime:wght@400;700&family=Monoton&family=Rye&family=Kalam:wght@400;700&family=Cinzel:wght@700&family=Rubik+Dirt&family=Permanent+Marker&display=swap">
+<style>/*CSS*/</style></head><body class="nocopy">
+<div id="city" aria-hidden="true"><i></i><i></i><i></i><span class="wg wy"></span><span class="wg wp"></span><span class="wg wb"></span><span class="wg wbr"></span><span class="wg wr"></span><span class="wg wg2"></span><div class="lampw"><div class="cone"></div><div class="dust"></div><div class="lamp"></div><div class="bulb"></div></div><div class="crowd"></div>
+<svg class="doodle d1" viewBox="0 0 120 120"><path d="M60 8 L68 50 L112 60 L68 70 L60 112 L52 70 L8 60 L52 50 Z"/></svg>
+<svg class="doodle d2" viewBox="0 0 100 70"><path d="M10 60 L18 18 L36 42 L50 10 L64 42 L82 18 L90 60 Z M8 66 C30 58 70 58 92 66"/></svg>
+<svg class="doodle d3" viewBox="0 0 80 80"><path d="M10 20 L30 30 M8 44 L32 44 M12 66 L30 56 M44 10 L72 70"/></svg></div>
+
+<!-- ================= LOGIN PORTAL ================= -->
+<div id="login" class="portal">
+  <form class="card lcard" id="lform" autocomplete="off" novalidate>
+    <div class="logo">ADVERTAINMENT</div>
+    <div class="tag">ROUND 2 · LOGIN</div>
+    <div class="f"><label for="tname">Team name</label><input id="tname" placeholder="e.g. Pixel Pirates" spellcheck="false" maxlength="40"></div>
+    <div class="f"><label for="code">Team code</label><input id="code" placeholder="CODE" autocapitalize="characters" spellcheck="false" maxlength="8"></div>
+    <p class="lerr" id="err" role="alert"></p>
+    <button class="pink big" id="go" type="submit">Log in</button>
+    <p class="mut small"><b>First time?</b> Just type your team name and the code: your team is registered automatically. Use the same name on both laptops.</p>
+    <p class="mut small">Keep this tab open during the round. If the page reloads, just press Continue — your progress is kept.</p>
+    <button class="ghost sm" id="tutopen" type="button" hidden>▶ How to play</button>
+    <p class="mut small" style="opacity:.55;text-align:center">Version 20 Nov · capsule hunt</p>
+    <p id="nodb" hidden class="lerr">The game is not connected to the event database. Please tell the OC.</p>
+  </form>
+  <section class="card tut" id="tutbox" aria-label="How to play">
+    <button class="ghost tclose" id="tutx" type="button" aria-label="Close tutorial">✕</button>
+    <h3>How to play <span id="tstep" hidden></span></h3>
+    <div class="screen" id="screen">
+      <div class="scene" data-s="0"><div class="m-card"><div class="m-logo">ADVERTAINMENT</div><div class="m-in"><span class="type" style="--n:13">Pixel Pirates</span></div><div class="m-in code"><span class="type t2" style="--n:5">K7PQ3</span></div><div class="m-btn press">Log in</div></div><i class="cursor" style="--path:c1"></i></div>
+      <div class="scene" data-s="1"><div class="m-lock"><div class="m-radar"></div><div style="font:800 13px var(--fd);color:#fff">Waiting for the organisers…</div></div></div>
+    </div>
+    <div class="cap" id="cap"><b></b><span></span></div>
+    <div class="tbarp" id="tbarp"></div>
+    <div class="tctl"><button class="sm ghost" id="tpp" type="button">❚❚ Pause</button><button class="sm ghost" id="trs" type="button">↺ Replay</button></div>
+  </section>
+</div>
+
+<!-- ================= GATE (logged out / back in / round over) ================= -->
+<div id="gate" class="center" hidden><div class="card gcard" id="gcard"><div class="gicon" id="gi">⛔</div><h2 id="gt"></h2><p id="gm"></p><button class="pink big" id="gb" hidden></button><p id="gx"></p><button type="button" class="ghost sm lobtn2" data-logout>⎋ Log out</button></div></div>
+
+<!-- ================= GAME ================= -->
+<div id="app" hidden>
+  <div class="tbar" id="hd"><span class="logo">ADVERTAINMENT</span><span id="who"></span><span class="pairb" id="pairb" hidden></span><span class="roleb" id="roleb" hidden></span><span id="timer"></span><button type="button" class="lobtn" data-logout title="Log out of this laptop">⎋ Log out</button></div>
+  <div id="banner" hidden></div>
+  <section id="home" hidden><div class="home">
+    <h1>What is this laptop for?</h1>
+    <p class="mut">Your team has two laptops. Give each one a job.</p>
+    <p class="warnl">⚠ Choose carefully. You cannot switch while you are logged in.</p>
+    <div class="choices">
+      <button type="button" class="choice c-game" data-p="game"><span class="ci">🎮</span><em class="chl">LAPTOP 1</em><b>The game</b><span>Solve 3 locks to open your brand’s case study.</span></button>
+      <button type="button" class="choice c-notes" data-p="notes"><span class="ci">🎨</span><em class="chl">LAPTOP 2</em><b>Design studio</b><span>Make your campaign presentation and submit it to the organisers.</span></button>
+    </div>
+  </div></section>
+  <div id="main" hidden><div class="wins" id="wins"></div></div>
+  <section id="notes" hidden><div class="nwrap">
+    <div class="ntabs" id="ntabs" hidden><button type="button" data-nt="doc" class="on">📝 Document</button><button type="button" data-nt="des">🎨 Design</button></div>
+    <div class="card npad doc" id="docw">
+      <div class="dtop">
+        <span class="dicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#4285f4" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#a1c2fa" d="M14 2v6h6z"/><path fill="#fff" d="M8 12h8v1.5H8zm0 3h8v1.5H8zm0 3h5v1.5H8z"/></svg></span>
+        <input id="dtitle" maxlength="80" placeholder="Untitled document" aria-label="Document name" spellcheck="false">
+        <span class="nsave" id="nsave"></span>
+        <span class="sp"></span>
+        <div class="ddw"><button type="button" class="dbtn dlb" data-dd="dd-dl">⬇ Download <i>▾</i></button>
+          <div class="ddm dd-right" id="dd-dl" hidden>
+            <button type="button" data-dl="docx"><b class="fi w">W</b>Microsoft Word (.docx)</button>
+            <button type="button" data-dl="pdf"><b class="fi p">PDF</b>PDF document (.pdf)</button>
+            <button type="button" data-dl="txt"><b class="fi t">TXT</b>Plain text (.txt)</button>
+          </div></div>
+      </div>
+      <div class="dtools" id="dtools" role="toolbar" aria-label="Formatting">
+        <button type="button" class="ib" data-act="undo" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62A7.95 7.95 0 0 1 20.37 16l2.37-.78A10.5 10.5 0 0 0 12.5 8z"/></svg></button>
+        <button type="button" class="ib" data-act="redo" title="Redo (Ctrl+Y)"><svg viewBox="0 0 24 24"><path d="M18.4 10.6A10.46 10.46 0 0 0 1.27 15.22l2.36.78A7.95 7.95 0 0 1 16.62 12.4L13 16h9V7z"/></svg></button>
+        <span class="tsp"></span>
+        <div class="ddw"><button type="button" class="dbtn wide" data-dd="dd-style" title="Styles"><span id="lstyle">Normal text</span><i>▾</i></button>
+          <div class="ddm" id="dd-style" hidden>
+            <button type="button" data-block="p"><span style="font-size:14px">Normal text</span></button>
+            <button type="button" data-block="h1"><span style="font-size:24px">Title</span></button>
+            <button type="button" data-block="h2"><span style="font-size:20px;font-weight:700">Heading 1</span></button>
+            <button type="button" data-block="h3"><span style="font-size:17px;font-weight:700">Heading 2</span></button>
+            <button type="button" data-block="h4"><span style="font-size:15px;font-weight:700;color:#434343">Heading 3</span></button>
+            <button type="button" data-block="blockquote"><span style="font-style:italic;border-left:3px solid #c8c8c8;padding-left:8px">Quote</span></button>
+          </div></div>
+        <span class="tsp"></span>
+        <div class="ddw"><button type="button" class="dbtn wide" data-dd="dd-font" title="Font"><span id="lfont">Arial</span><i>▾</i></button>
+          <div class="ddm scroll" id="dd-font" hidden>FONTS</div></div>
+        <span class="tsp"></span>
+        <button type="button" class="ib" data-act="sizedown" title="Decrease font size">−</button>
+        <div class="ddw"><input id="dsize" class="dsize" value="11" inputmode="numeric" maxlength="3" aria-label="Font size" data-dd="dd-size">
+          <div class="ddm scroll narrow" id="dd-size" hidden>SIZES</div></div>
+        <button type="button" class="ib" data-act="sizeup" title="Increase font size">+</button>
+        <span class="tsp"></span>
+        <button type="button" class="ib" data-cmd="bold" title="Bold (Ctrl+B)"><b style="font:700 16px Arial">B</b></button>
+        <button type="button" class="ib" data-cmd="italic" title="Italic (Ctrl+I)"><i style="font:italic 700 16px Georgia">I</i></button>
+        <button type="button" class="ib" data-cmd="underline" title="Underline (Ctrl+U)"><u style="font:700 15px Arial">U</u></button>
+        <button type="button" class="ib" data-cmd="strikeThrough" title="Strikethrough"><s style="font:700 15px Arial">S</s></button>
+        <div class="ddw"><button type="button" class="ib" data-dd="dd-color" title="Text colour"><span class="clr"><b>A</b><i id="bcolor" style="background:#000"></i></span></button>
+          <div class="ddm pal" id="dd-color" hidden><button type="button" class="auto" data-color="#000000">Automatic</button><div class="sws" data-for="color">PAL</div></div></div>
+        <div class="ddw"><button type="button" class="ib" data-dd="dd-hl" title="Highlight colour"><span class="clr"><svg viewBox="0 0 24 24" style="width:17px;height:17px"><path d="M15.2 3.3 20.7 8.8 10 19.5H4.5V14z"/></svg><i id="bhl" style="background:#ff0"></i></span></button>
+          <div class="ddm pal" id="dd-hl" hidden><button type="button" class="auto" data-hl="transparent">⊘ None</button><div class="sws" data-for="hl">PAL</div></div></div>
+        <button type="button" class="ib" data-cmd="superscript" title="Superscript">x<sup>2</sup></button>
+        <button type="button" class="ib" data-cmd="subscript" title="Subscript">x<sub>2</sub></button>
+        <span class="tsp"></span>
+        <div class="ddw"><button type="button" class="ib" data-dd="dd-ins" title="Insert">＋<i class="car">▾</i></button>
+          <div class="ddm" id="dd-ins" hidden>
+            <div class="tgrid-lbl">Table <span id="tglbl">1 × 1</span></div><div class="tgp" id="tgp"></div>
+            <hr><button type="button" data-act="hr">― Horizontal line</button>
+            <button type="button" data-act="date">📅 Today’s date</button>
+            <button type="button" data-act="check">☐ Checkbox</button>
+          </div></div>
+        <span class="tsp"></span>
+        <button type="button" class="ib" data-cmd="justifyLeft" title="Align left"><svg viewBox="0 0 24 24"><path d="M3 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z"/></svg></button>
+        <button type="button" class="ib" data-cmd="justifyCenter" title="Centre"><svg viewBox="0 0 24 24"><path d="M3 4h18v2H3zm3 4h12v2H6zm-3 4h18v2H3zm3 4h12v2H6zm-3 4h18v2H3z"/></svg></button>
+        <button type="button" class="ib" data-cmd="justifyRight" title="Align right"><svg viewBox="0 0 24 24"><path d="M3 4h18v2H3zm6 4h12v2H9zm-6 4h18v2H3zm6 4h12v2H9zm-6 4h18v2H3z"/></svg></button>
+        <button type="button" class="ib" data-cmd="justifyFull" title="Justify"><svg viewBox="0 0 24 24"><path d="M3 4h18v2H3zm0 4h18v2H3zm0 4h18v2H3zm0 4h18v2H3zm0 4h18v2H3z"/></svg></button>
+        <div class="ddw"><button type="button" class="ib" data-dd="dd-ls" title="Line spacing"><svg viewBox="0 0 24 24"><path d="M10 5h11v2H10zm0 6h11v2H10zm0 6h11v2H10zM6 7h2.5L5 3.5 1.5 7H4v10H1.5L5 20.5 8.5 17H6z"/></svg></button>
+          <div class="ddm narrow" id="dd-ls" hidden><button type="button" data-ls="1">Single</button><button type="button" data-ls="1.15">1.15</button><button type="button" data-ls="1.5">1.5</button><button type="button" data-ls="2">Double</button></div></div>
+        <span class="tsp"></span>
+        <button type="button" class="ib" data-cmd="insertUnorderedList" title="Bulleted list"><svg viewBox="0 0 24 24"><circle cx="4" cy="6" r="1.8"/><circle cx="4" cy="12" r="1.8"/><circle cx="4" cy="18" r="1.8"/><path d="M8 5h13v2H8zm0 6h13v2H8zm0 6h13v2H8z"/></svg></button>
+        <button type="button" class="ib" data-cmd="insertOrderedList" title="Numbered list"><svg viewBox="0 0 24 24"><path d="M2 17h2v.5H3v1h1v.5H2v1h3v-4H2zm1-9h1V4H2v1h1zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2zm5-6v2h14V5zm0 14h14v-2H7zm0-6h14v-2H7z"/></svg></button>
+        <button type="button" class="ib" data-act="outdent" title="Decrease indent"><svg viewBox="0 0 24 24"><path d="M11 17h10v-2H11zm-8-5 4 4V8zm0 9h18v-2H3zM3 3v2h18V3zm8 6h10V7H11zm0 4h10v-2H11z"/></svg></button>
+        <button type="button" class="ib" data-act="indent" title="Increase indent"><svg viewBox="0 0 24 24"><path d="M3 21h18v-2H3zM3 8v8l4-4zm8 9h10v-2H11zM3 3v2h18V3zm8 6h10V7H11zm0 4h10v-2H11z"/></svg></button>
+        <span class="tsp"></span>
+        <button type="button" class="ib" data-act="clear" title="Clear formatting"><svg viewBox="0 0 24 24"><path d="M3.27 5 2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21 18 19.73 3.55 5.27zM6 5v.18L8.82 8h2.4l-.72 1.68 2.1 2.1L14.21 8H20V5z"/></svg></button>
+        <button type="button" class="ib" data-act="find" title="Find and replace (Ctrl+F)"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.47 6.47 0 0 0 4.23-1.57l.27.28v.79l5 5 1.5-1.5zm-6 0C7 14 5 12 5 9.5S7 5 9.5 5 14 7 14 9.5 12 14 9.5 14z"/></svg></button>
+      </div>
+      <div class="dtable" id="dtable" hidden><b>Table</b>
+        <button type="button" data-tb="rowA">+ Row above</button><button type="button" data-tb="rowB">+ Row below</button><button type="button" data-tb="colL">+ Column left</button><button type="button" data-tb="colR">+ Column right</button>
+        <button type="button" data-tb="delRow" class="dg">Delete row</button><button type="button" data-tb="delCol" class="dg">Delete column</button><button type="button" data-tb="delTab" class="dg">Delete table</button></div>
+      <div class="dfind" id="dfind" hidden>
+        <input id="fq" placeholder="Find" spellcheck="false" aria-label="Find"><span id="fcount" class="fcount"></span>
+        <input id="fr" placeholder="Replace with" spellcheck="false" aria-label="Replace with">
+        <label class="fcase"><input type="checkbox" id="fcase"> Match case</label>
+        <button type="button" id="fnext">Find next</button><button type="button" id="frep">Replace</button><button type="button" id="fall">Replace all</button><button type="button" id="fclose" title="Close">✕</button>
+      </div>
+      <div class="dcanvas" id="dcanvas"><div class="dpage" id="dpage" contenteditable="true" spellcheck="true" aria-label="Notes document"></div></div>
+      <div class="dstat"><span id="ncount">0 words</span><span id="dchars">0 characters</span><span class="sp"></span>
+        <button type="button" class="zb" data-z="-1" title="Zoom out">−</button><span id="dzoom">100%</span><button type="button" class="zb" data-z="1" title="Zoom in">+</button></div>
+    </div>
+    <div class="card ndraw" hidden>
+      <div class="nh"><h3>🎨 Sketch pad</h3><span class="ptip" id="ptip">Brush · drag to draw</span>
+        <div class="acts"><button type="button" class="tb" id="pundo" title="Undo (Ctrl+Z)">↶ Undo</button><button type="button" class="tb" id="predo" title="Redo (Ctrl+Y)">↷ Redo</button><button type="button" class="tb" id="pgrid" title="Show a grid (not saved in the drawing)">▦ Grid</button><button type="button" class="tb" id="pclr" title="Clear the whole sketch">🗑 Clear</button></div></div>
+      <div class="pbody">
+        <div class="toolbox" id="toolbox"><button type="button" class="tool" data-tool="select" title="Select & move (S)" aria-label="Select & move (S)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" stroke-dasharray="3 2.4"/><path d="M12 9v6M9 12h6"/></svg></button><button type="button" class="tool on" data-tool="brush" title="Brush (B)" aria-label="Brush (B)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18.4 3.6a2 2 0 0 1 2.8 2.8L11 16.6 7.4 13z"/><path d="M7 14c-2.5 0-3.5 2-3.5 3.7S2.5 21 2.5 21s4 .5 5.6-1.1A3 3 0 0 0 7 14z"/></svg></button><button type="button" class="tool" data-tool="mark" title="Highlighter (M)" aria-label="Highlighter (M)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4l5 5-9 9H6v-5z"/><path d="M4 21h16" stroke-width="3" opacity=".5"/></svg></button><button type="button" class="tool" data-tool="spray" title="Spray can (A)" aria-label="Spray can (A)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="8" height="12" rx="2"/><path d="M7 9V6h4v3M15 5h.01M18 3h.01M18 7h.01M21 5h.01M16 9h.01M20 10h.01" stroke-width="2.4"/></svg></button><button type="button" class="tool" data-tool="era" title="Eraser (E)" aria-label="Eraser (E)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5-5L14 5l6 6-9 9z"/><path d="M9 20h11M7 12l5 5"/></svg></button><button type="button" class="tool" data-tool="fill" title="Fill bucket (F)" aria-label="Fill bucket (F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l8 8-7 7a2 2 0 0 1-3 0l-5-5a2 2 0 0 1 0-3z"/><path d="M4.5 11h13"/><path d="M20 15s2 2.4 2 3.6a2 2 0 0 1-4 0C18 17.4 20 15 20 15z"/></svg></button><button type="button" class="tool" data-tool="pick" title="Colour picker (I)" aria-label="Colour picker (I)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5a2.1 2.1 0 0 0-3 0l-2 2-1-1-1.5 1.5 1 1L5 16v3h3l8-8 1 1 1.5-1.5-1-1 2-2a2.1 2.1 0 0 0 0-3z"/></svg></button><button type="button" class="tool" data-tool="text" title="Text (T)" aria-label="Text (T)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg></button><button type="button" class="tool" data-tool="line" title="Line (L)" aria-label="Line (L)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5"/></svg></button><button type="button" class="tool" data-tool="arrow" title="Arrow" aria-label="Arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5M10 5h9v9"/></svg></button><button type="button" class="tool" data-tool="rect" title="Rectangle (R)" aria-label="Rectangle (R)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="1"/></svg></button><button type="button" class="tool" data-tool="ell" title="Ellipse (O)" aria-label="Ellipse (O)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="7"/></svg></button><button type="button" class="tool" data-tool="tri" title="Triangle" aria-label="Triangle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z"/></svg></button><button type="button" class="tool" data-tool="star" title="Star" aria-label="Star"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button></div>
+        <div class="cwrap" id="cwrap"><div class="cstack" id="cstack"><canvas id="cv" width="1600" height="1000"></canvas><canvas id="ov" width="1600" height="1000" aria-label="Sketch pad"></canvas><textarea id="ptext" hidden spellcheck="false" rows="1"></textarea></div></div>
+      </div>
+      <div class="opts">
+        <div class="wells"><button type="button" class="well on" data-well="1" title="Colour 1: brush, text, outlines. Click again for more colours"><i id="w1"></i><span>Colour 1</span></button><button type="button" class="well" data-well="2" title="Colour 2: fill inside shapes (Both mode). Click again for more colours"><i id="w2"></i><span>Colour 2</span></button></div>
+        <div class="pal" id="pal"><button type="button" class="sw" data-c="#000000" style="--c:#000000" title="#000000"></button><button type="button" class="sw" data-c="#7F7F7F" style="--c:#7F7F7F" title="#7F7F7F"></button><button type="button" class="sw" data-c="#C3C3C3" style="--c:#C3C3C3" title="#C3C3C3"></button><button type="button" class="sw" data-c="#FFFFFF" style="--c:#FFFFFF" title="#FFFFFF"></button><button type="button" class="sw" data-c="#880015" style="--c:#880015" title="#880015"></button><button type="button" class="sw" data-c="#ED1C24" style="--c:#ED1C24" title="#ED1C24"></button><button type="button" class="sw" data-c="#FF7F27" style="--c:#FF7F27" title="#FF7F27"></button><button type="button" class="sw" data-c="#FFC90E" style="--c:#FFC90E" title="#FFC90E"></button><button type="button" class="sw" data-c="#FFF200" style="--c:#FFF200" title="#FFF200"></button><button type="button" class="sw" data-c="#B5E61D" style="--c:#B5E61D" title="#B5E61D"></button><button type="button" class="sw" data-c="#22B14C" style="--c:#22B14C" title="#22B14C"></button><button type="button" class="sw" data-c="#00A2E8" style="--c:#00A2E8" title="#00A2E8"></button><button type="button" class="sw" data-c="#3F48CC" style="--c:#3F48CC" title="#3F48CC"></button><button type="button" class="sw" data-c="#A349A4" style="--c:#A349A4" title="#A349A4"></button><button type="button" class="sw" data-c="#FF2E93" style="--c:#FF2E93" title="#FF2E93"></button><button type="button" class="sw" data-c="#7B3FFF" style="--c:#7B3FFF" title="#7B3FFF"></button><button type="button" class="sw" data-c="#19E3FF" style="--c:#19E3FF" title="#19E3FF"></button><button type="button" class="sw" data-c="#B97A57" style="--c:#B97A57" title="#B97A57"></button><button type="button" class="more" id="pmore" title="More colours">＋</button></div>
+        <div class="og"><span>Size</span><input type="range" id="psize" min="1" max="80" value="6"><b id="psizev">6</b></div>
+        <div class="og"><span>Opacity</span><input type="range" id="palpha" min="5" max="100" value="100"><b id="palphav">100%</b></div>
+        <div class="og seg" id="pmode"><span>Shapes</span><button type="button" data-m="o" class="on">Outline</button><button type="button" data-m="f">Filled</button><button type="button" data-m="b">Both</button></div>
+        <div class="og seg" id="pfont"><span>Text</span><button type="button" data-f="sans" class="on">Sans</button><button type="button" data-f="display" style="font-family:Unbounded,sans-serif">Bold</button><button type="button" data-f="serif" style="font-family:Georgia,serif">Serif</button><button type="button" data-f="hand" style="font-family:'Comic Sans MS',cursive">Hand</button><button type="button" data-f="pixel" style="font-family:VT323,monospace">Pixel</button></div>
+      </div>
+      <div class="cpick" id="cpick" hidden><canvas id="cpsv" width="240" height="150"></canvas><input type="range" id="cphue" min="0" max="360" value="0" aria-label="Hue"><div class="row"><span class="cpsw" id="cpsw"></span><input id="cphex" maxlength="7" spellcheck="false" aria-label="Hex colour"><button type="button" class="tb" id="cpok">Done</button></div></div>
+    </div>
+      <div class="card npad des" id="desw" hidden>
+      <div class="gtop">
+        <span class="gdico" aria-hidden="true">✦</span>
+        <div class="gbrand"><b>Campaign Studio</b><input id="gtitle" maxlength="80" placeholder="Untitled campaign" aria-label="Campaign name" spellcheck="false"></div>
+        <span class="gsz" id="gsz"></span>
+        <div class="ddw"><button type="button" class="gbtn" data-gdd="gdd-size">↔ Slide size <i>▾</i></button>
+          <div class="gdm" id="gdd-size" hidden></div></div>
+        <div class="ddw"><button type="button" class="gbtn" data-gdd="gdd-tr">✦ <span id="gtrl">Fade</span> <i>▾</i></button>
+          <div class="gdm" id="gdd-tr" hidden></div></div>
+        <span class="gsep"></span>
+        <button type="button" class="gib" data-ga="undo" title="Undo (Ctrl+Z)">↶</button>
+        <button type="button" class="gib" data-ga="redo" title="Redo (Ctrl+Y)">↷</button>
+        <span class="sp"></span>
+        <button type="button" class="gbtn gtask" id="gtask" title="The client’s brief">📋 Deck plan</button>
+        <button type="button" class="gbtn gplay2" id="gplaycur" title="Present from this slide (Shift+F5)">▷ From here</button>
+        <button type="button" class="gbtn gplay" id="gplay" title="Present from the first slide (F5)">▶ Present</button>
+        <span class="gsub" id="gsubst"></span>
+        <button type="button" class="gsubmit" id="gsubmit">⬆ Submit campaign</button>
+      </div>
+      <div class="gbody">
+        <nav class="grail" id="grail">
+          <button type="button" data-gp="magic" class="on gbrail"><span>✨</span>Magic</button>
+          <button type="button" data-gp="ph"><span>📷</span>Photos</button>
+          <button type="button" data-gp="kit"><span>★</span>Brand kit</button>
+          <button type="button" data-gp="cap"><span>⧉</span>Capsule</button>
+          <button type="button" data-gp="el"><span>◆</span>Elements</button>
+          <button type="button" data-gp="tx"><span>T</span>Text</button>
+          <button type="button" data-gp="gfx"><span>✺</span>Graphics</button>
+          <button type="button" data-gp="mock"><span>▭</span>Mockups</button>
+          <button type="button" data-gp="chart"><span>▥</span>Charts</button>
+          
+          <button type="button" data-gp="bg"><span>◐</span>Background</button>
+          <button type="button" data-gp="ly"><span>☰</span>Layers</button>
+        </nav>
+        <aside class="gpanel" id="gpanel">
+          <section data-gpp="magic"><div id="gmagic"></div></section>
+          <section data-gpp="ph" hidden><div id="gphoto"></div></section>
+          <section data-gpp="kit" hidden><div id="gkit"></div></section>
+          <section data-gpp="cap" hidden><div id="gcap"></div></section>
+          <section data-gpp="el" hidden><h4>Shapes</h4><div class="gshapes" id="gshapes"></div><h4>Lines</h4><div class="gshapes" id="glines"></div><h4>Icons &amp; stickers</h4><div class="gicons" id="gicons"></div></section>
+          <section data-gpp="tx" hidden><button type="button" class="gaddtx h" data-tx="h">Add a heading</button><button type="button" class="gaddtx s" data-tx="s">Add a subheading</button><button type="button" class="gaddtx b" data-tx="b">Add a little bit of body text</button><h4>Font combinations</h4><div class="gcombos" id="gcombos"></div></section>
+          <section data-gpp="gfx" hidden><div id="ggfx"></div></section>
+          <section data-gpp="mock" hidden><div id="gmock"></div></section>
+          <section data-gpp="chart" hidden><div id="gchart"></div></section>
+          <section data-gpp="up" hidden><div id="gupl"></div></section>
+          <section data-gpp="bg" hidden><h4>Colour</h4><div class="gswg" id="gbgcol"></div><div class="ghexrow"><input id="gbghex" maxlength="7" placeholder="#hex" aria-label="Background colour"><button type="button" id="gbghexok">Apply</button></div><h4>Gradients</h4><div class="gswg grad" id="gbggrad"></div></section>
+          <section data-gpp="ly" hidden><h4>Layers <small>top of the list = front</small></h4><div class="glayers" id="glayers"></div></section>
+        </aside>
+        <div class="gslw">
+          <div class="gslhd"><b>Slides</b><span id="gslcount"></span></div>
+          <div class="gslides" id="gslides"></div>
+          <div class="ddw gnewd"><button type="button" class="gnew" data-gdd="gdd-new">＋ New slide <i>▾</i></button>
+            <div class="gdm gup" id="gdd-new" hidden></div></div>
+        </div>
+        <div class="gmain">
+          <div class="gctx" id="gctx"><span class="mut">Select something on the slide to edit it.</span></div>
+          <div class="gstage" id="gstage"><div class="gpagew" id="gpagew"><canvas id="gcv"></canvas><div class="gov" id="gov"></div><textarea id="gtxt" hidden spellcheck="false"></textarea></div></div>
+          <div class="gnotesw"><textarea id="gnotes" maxlength="2000" placeholder="Click to add speaker notes for this slide" aria-label="Speaker notes"></textarea></div>
+          <div class="gstat"><span id="gslpos"></span><span class="gdot">·</span><span id="ginfo"></span><span class="sp"></span><button type="button" class="gib" data-gz="-1" title="Zoom out">−</button><button type="button" class="gzl" data-gz="0" id="gzoom" title="Fit to screen">Fit</button><button type="button" class="gib" data-gz="1" title="Zoom in">+</button></div>
+        </div>
+      </div>
+      <div class="gpop" id="gpop" hidden></div>
+    </div>
+  </div></section>
+</div>
+<div class="gshow" id="gshow" hidden><canvas id="gshowcv"></canvas><button type="button" id="gshowp" aria-label="Previous slide">‹</button><span id="gshown"></span><button type="button" id="gshowx">✕ End show</button><span id="gshowhint">Click or press → for the next slide · Esc to end</span></div>
+<div id="pz" class="ovl" hidden><div><div class="logo">INTERVAL</div><h2 style="font-size:22px;margin-top:10px">The OC has paused the event.</h2></div></div>
+<div id="fsback" class="ovl" hidden><div class="card gcard g-out"><div class="gicon">⛶</div><h2>Go back to fullscreen</h2><p class="mut" style="font-size:18px">The screen left fullscreen. Press the button within <b id="fsn" style="color:var(--yel)">10</b> seconds or your team is logged out.</p><button class="pink big" id="fsgo" type="button">Go back to fullscreen</button></div></div>
+<div id="buzz" hidden><button type="button" id="buzzb"><span>🔔</span><b>BUZZ!</b><small>or press Space</small></button><div id="buzzr"></div></div>
+<div id="testbar" hidden>TEST PREVIEW · no fullscreen and no logouts · not for teams</div>
+<div id="wm"></div>
+<div id="toast" hidden role="status"></div>
+<div id="net" hidden>Connection problem, reconnecting… Stay on this screen.</div>
+<div id="modal" class="ovl" hidden><div class="box"><h3 id="mt"></h3><p id="mm"></p><div id="mx"></div><div class="row" style="justify-content:flex-end"><button class="sm ghost" id="mno" type="button">Cancel</button><button class="sm red" id="myes" type="button">Confirm</button></div></div></div>
+
+<!-- ================= OC PANEL ================= -->
+<div id="adm" hidden>
+  <div id="apin" class="center"><form class="card lcard" id="pinf" autocomplete="off"><div class="logo">ADVERTAINMENT</div><div class="tag">OC PANEL</div><input id="pin" type="password" placeholder="OC password" aria-label="OC password"><p id="pinerr" class="lerr"></p><button class="pink big" type="submit">Open OC panel</button></form></div>
+  <div id="apanel" class="oc" hidden>
+    <div class="ochd">
+      <span class="logo">ADVERTAINMENT</span><b>OC</b><span class="conn" id="acon">Connecting…</span><span class="sp"></span><span id="tleftTop" class="conn"></span><span class="conn">Version 20 Nov · capsule hunt</span>
+      <div class="octabs" role="tablist">
+        <button role="tab" aria-selected="true" data-t="teams" type="button">Teams &amp; codes<span id="bt" class="badge" hidden></span></button>
+        <button role="tab" aria-selected="false" data-t="live" type="button">Live round<span id="bo" class="badge r" hidden></span></button>
+        <button role="tab" aria-selected="false" data-t="subs" type="button">Submissions<span id="bsub" class="badge" hidden></span></button>
+        <button role="tab" aria-selected="false" data-t="setup" type="button">Setup</button>
+      </div>
+    </div>
+
+    <section class="pane" id="p-teams">
+      <form class="card codecard" id="codef" autocomplete="off" style="margin-bottom:16px"><h2>Team code <small>the same code for every team</small></h2>
+        <div class="row"><span class="codecell" id="codeNow" style="font-size:34px">…</span><input id="codeIn" maxlength="12" placeholder="New code" style="max-width:220px;font:24px var(--fp);letter-spacing:.16em;text-transform:uppercase"><button class="cy" type="submit">Change code</button></div>
+        <p class="hint" style="margin-top:10px">Teams log in with their own team name and this code. Changing it works straight away for new logins; teams already playing are not affected.</p></form>
+      <div class="addbox">
+        <form class="card" id="addf" autocomplete="off"><h2>Add a team</h2><div class="msgbox"><input id="addname" maxlength="40" placeholder="Team name, or: Team name, 5"><button class="cy" type="submit">Add team</button></div><p class="hint" style="margin-top:10px">Type the name exactly as the team will type it at login (capitals and spaces do not matter). Add a comma and a pairing number (1–18) to assign its brand straight away, e.g. <b>Pixel Pirates, 5</b>.</p></form>
+        <div class="card"><h2>Add many teams</h2><textarea id="bulk" placeholder="One team per line. Optional pairing number after a comma:
+Pixel Pirates, 1
+Brand Wizards, 2"></textarea><div class="row" style="margin-top:10px"><button class="cy sm" id="bulkgo" type="button">Add all</button><span class="hint">Names already added are skipped.</span></div></div>
+      </div>
+      <div class="card"><h2>Teams <small id="tcount"></small></h2>
+        <div class="row" style="margin-bottom:12px"><button class="sm ghost" id="copyall" type="button">Copy team list + code</button><button class="sm cy" id="autopair" type="button">Auto-assign brands to teams without one</button><span class="hint" id="pairsum"></span></div>
+        <div class="tblw" id="teamsTbl"><table class="tbl"><thead><tr><th>#</th><th>Team</th><th>Brand × product</th><th>Status</th><th>Client briefs</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
+        <textarea id="copybox" hidden readonly style="margin-top:10px;min-height:140px"></textarea>
+      </div>
+    </section>
+
+    <section class="pane" id="p-live" hidden>
+      <div id="alerts"></div>
+      <div class="card stepcard schcard">
+        <h2>🎬 Game schedule <small id="schsum"></small></h2>
+        <div class="schset" hidden>
+          <label>Gap between teams <input id="sgap" type="number" min="0" max="120" step="0.5" inputmode="decimal"> min</label>
+          <label>Lock 1 → Faces <input id="sd1" type="number" min="0.5" max="120" step="0.5" inputmode="decimal"> min</label>
+          <label>→ Noise <input id="sd2" type="number" min="0.5" max="120" step="0.5" inputmode="decimal"> min</label>
+          <label>→ Shelves <input id="sd3" type="number" min="0.5" max="120" step="0.5" inputmode="decimal"> min</label>
+          <span class="mut">These are the latest times. Teams that solve a lock open it sooner.</span>
+          <button class="sm ghost" id="ssave" type="button">Save timings</button>
+        </div>
+        <div class="schbtns">
+          <button class="pink big" id="sgo" type="button" hidden>▶ Start sequence</button>
+          <button class="pink big" id="sall" type="button">▶ Start all teams</button>
+          <button class="ghost" id="snextall" type="button">⏭ Next stage for all</button>
+          <button class="ghost" id="spauseall" type="button">⏸ Pause all teams</button>
+          <button class="ghost" id="sresumeall" type="button">▶ Resume all</button>
+          <button class="ghost" id="sshift" type="button" hidden>+1 min to teams not started</button>
+          <button class="ghost" id="scancel" type="button" hidden>✕ Cancel teams not started</button>
+        </div>
+        <p class="hint" id="stline"></p>
+        <div class="tblw"><table class="tbl sched"><thead><tr><th>Order</th><th>Team</th><th>Stage now</th><th>Time</th><th>Controls</th></tr></thead><tbody id="sbody"></tbody></table></div>
+        <div class="quick"><button class="cy" id="block" type="button"></button><button class="ghost" id="bpause" type="button"></button><button class="red" id="bend" type="button"></button><button class="ghost" id="bpract" type="button" hidden></button></div>
+      </div>
+      <div class="ocgrid">
+        <div class="card"><h2>Teams <small id="tc"></small></h2><div class="tgrid" id="tg"></div></div>
+        <div style="display:grid;gap:16px">
+          <div class="card buzzcard"><h2>🔔 Buzzer <small id="bzst"></small></h2><div class="row" style="gap:8px;flex-wrap:wrap"><button class="pink" id="bzgo" type="button">🔔 Release buzzer</button><button class="ghost sm" id="bzclose" type="button">Close buzzer</button><button class="ghost sm" id="bzclear" type="button">Clear</button></div><ol class="bzlist" id="bzlist"></ol><p class="hint">Every team screen gets a big BUZZ button. The list shows teams in the exact order they pressed, timed by the server, not by each laptop’s clock.</p></div>
+          <div class="card"><h2>Timer</h2><div class="timerbox"><span id="tleft">--:--</span><input id="tmin" type="number" min="1" max="180" value="60" aria-label="Minutes"><span class="mut">min</span><button class="sm cy" id="tstart" type="button">Start</button><button class="sm ghost" id="tplus" type="button">+1 min</button><button class="sm ghost" id="tclear" type="button">Clear</button></div></div>
+          <div class="card"><h2>Message to every screen</h2><div class="msgbox"><input id="bmsg" maxlength="160" placeholder="Type a message…"><button class="sm cy" id="bsend" type="button">Send</button><button class="sm ghost" id="bclr" type="button">Clear</button></div>
+            <div class="chips"><button class="ghost" type="button" data-q="Ten minutes left. Something is coming.">10 minutes left</button><button class="ghost" type="button" data-q="Final reminder: 5 minutes left!">5 minutes left</button><button class="ghost" type="button" data-q="Check The Brief: your deck needs at least 7 slides.">Deck needs 7 slides</button><button class="ghost" type="button" data-q="Clues A to F in The Faces are about your ideal customer. Work out what each one means. Only one persona fits all 6.">Customer lock hint</button><button class="ghost" type="button" data-q="Time. Step away from your laptops.">Time's up</button></div>
+            <p class="hint" id="curmsg" style="margin-top:8px"></p></div>
+          <div class="card callcard"><h2>📞 Client calls <small>each team gets its own brand’s call</small></h2>
+            <div class="bcalls">
+              <div><button class="cy" id="bcall1" type="button">📞 Call 1 · mid-round twist</button><span class="hint" id="bcs1">not sent yet</span></div>
+              <div><button class="cy" id="bcall2" type="button">📞 Call 2 · final twist</button><span class="hint" id="bcs2">not sent yet</span></div>
+            </div>
+            <p class="hint">Every team’s laptops ring until they answer. Each team hears a different message written for its brand. Suggested: Call 1 around the middle of the round, Call 2 about 10 minutes before the end.</p>
+            <details class="bcd"><summary>See every team’s calls</summary><div id="bcalllist"></div></details>
+            <details class="bcd"><summary>Or send one call to everyone</summary>
+              <div class="chips" id="callp"></div>
+              <div class="callform"><input id="callt" maxlength="40" placeholder="Title, e.g. Budget cut"><textarea id="callx" rows="3" maxlength="300" placeholder="What the client says. {B} = the team's brand, {p} = its product."></textarea></div>
+              <div class="row"><button class="ghost" id="callgo" type="button">📞 Call all teams with this</button></div>
+              <p class="hint" id="curcall" style="margin-top:8px"></p>
+            </details>
+            <div class="row" style="margin-top:10px"><button class="ghost sm" id="callclr" type="button">End all calls</button></div></div>
+          <div class="card"><h2>Reset</h2><p class="hint" style="margin-bottom:10px">Clears every step, the timer, messages, logouts and every team's progress. Teams and codes stay.</p><button class="ghost sm" id="breset" type="button">Reset round (keep teams)</button></div>
+        </div>
+      </div>
+      <details class="card prevcard" id="prevbox"><summary><h2>👁 Test a team screen here <small>open this to see exactly what a team sees, without being logged out</small></h2></summary>
+        <p class="hint" style="margin:10px 0">Log in below with any team name and the team code. This preview never goes fullscreen and never logs out, so you can press buttons above and watch the result here. Real teams must use the normal link.</p>
+        <div class="row" style="margin-bottom:10px"><button class="ghost sm" id="prevnew" type="button">Open the preview in a new tab</button></div>
+        <iframe id="prevf" title="Team screen preview"></iframe></details>
+      </section>
+    <section class="pane" id="p-subs" hidden>
+      <div class="card"><h2>🎨 Design submissions <small id="subsum"></small></h2>
+        <div class="subhead"><button class="cy" id="subtoggle" type="button"></button><button class="ghost" id="suball" type="button">⬇ Download all (.zip)</button><button class="ghost" id="subclear" type="button">🗑 Clear all submissions</button><span class="hint" id="subnote"></span></div>
+        <p class="hint" style="margin-bottom:12px">Teams make their design on the Design laptop and press <b>Submit design</b>. The newest version of each team’s design shows here. Click a picture to see it full size.</p>
+        <div class="subgrid" id="subgrid"></div>
+      </div>
+    </section>
+    <section class="pane" id="p-setup" hidden>
+      <div class="setup">
+        <div class="card"><h2>Links</h2><p class="hint">Teams open:</p><p class="codecell" style="font-size:20px;letter-spacing:.02em;margin:4px 0 12px" id="lnkTeam"></p><p class="hint">OC panel:</p><p class="codecell" style="font-size:20px;letter-spacing:.02em;margin:4px 0 12px" id="lnkOc"></p><p class="hint">OC password is set in the file (ADMIN_PIN).</p></div>
+        <div class="card" hidden><h2>Practice mode</h2><p class="hint" style="margin-bottom:12px">Teams who leave the screen only get a warning instead of being logged out. Use it for rehearsals, even on one laptop. Switch it OFF before the real round.</p><button id="bpract2" type="button"></button></div>
+        <div class="card"><h2>Reset the round</h2><p class="hint" style="margin-bottom:12px">Clears every step, the timer, messages, logouts and every team's progress. Teams and codes stay. Do this after your rehearsal.</p><button class="ghost" id="breset2" type="button">Reset round (keep teams)</button></div>
+        <div class="card"><h2>Remove all teams</h2><p class="hint" style="margin-bottom:12px">Deletes every team and code. Only use this to start completely fresh.</p><button class="red" id="bwipe" type="button">Remove all teams</button></div>
+        <div class="card" style="grid-column:1/-1"><h2>Brand case studies &amp; lock answers <small>OC only</small></h2><p class="hint" style="margin-bottom:10px">15 brand time capsules. Lock 1: unscramble the city. Lock 2: choose the persona. 12 profiles; clues A–F in The Faces are indirect evidence about the ideal customer; only one profile fits all 6. Each wrong pick jams the lock for 2 minutes. Lock 3: the vault opens The Shelves. Every brand has its own 5-digit vault code (in the table). Answers ignore capitals, spaces and punctuation. Press Case study to see exactly what a team sees.</p><div class="tblw"><table class="tbl"><thead><tr><th>#</th><th>Brand × product</th><th>Lock 1 · city</th><th>Lock 2 persona · Lock 3 vault code</th><th>Assigned to</th><th></th></tr></thead><tbody id="akey"></tbody></table></div></div>
+        <div class="card" style="grid-column:1/-1"><h2>How to run Round 2</h2><ol class="hint" style="padding-left:20px;line-height:1.8;margin:0">
+          <li><b>Before:</b> add every registered team in <b>Teams &amp; codes</b>, pick each team’s <b>brand × product</b> (or press Auto-assign), set the team code, and tell teams their exact team name and the code.</li>
+          <li><b>Rehearse</b> once with Practice mode ON, then press <b>Reset round</b> and switch Practice mode OFF.</li>
+          <li><b>On the day:</b> teams open the team link, type their team name and code, and land on the waiting screen.</li>
+          <li>In <b>Live round → Game schedule</b>, press <b>▶ Start all teams</b>. Every team starts at the same moment. Each team’s brand time capsule then opens in three steps: Lock 1 (unscramble the city) opens The Faces, Lock 2 (build the customer persona) opens The Noise, and the vault opens The Shelves. Nothing opens by itself: if a team is stuck, press <b>⏭ Next stage</b> on their row. Every team row has its own controls: start now, pause/resume, next stage, go to any stage, stop, restart and reset.</li>
+          <li>Logged-out teams appear in a red alert. Press <b>Let back in</b>; their screen unlocks by itself with progress kept.</li>
+          <li>Use the timer and message buttons as you go. Press <b>End round</b> when time is up.</li></ol>
+          <p class="hint" style="margin-top:12px">Vault code for every team: <b>87634</b>. City and question answers are in the case-study table above.</p></div>
+      </div>
+    </section>
+  </div>
+</div>
+<script>/*JS*/</script>
+</body></html>
