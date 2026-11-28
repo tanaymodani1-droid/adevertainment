@@ -3504,8 +3504,8 @@ function gphTip(){const p=$('gphoto'),t=p&&p.querySelector('.gphtip');if(!t)retu
 
 /* v21: Openverse photos (Flickr, rawpixel...) + ready backgrounds + background shade */
 async function gphSearch(q){q=String(q||'').trim();if(!q)return;gphQ=q;if(gphMode==='cut')return gphSearchWM(q);gphBusy=true;gphErr='';gphRes=[];gphPanel();
- try{const u='https://api.openverse.org/v1/images/?q='+encodeURIComponent(q)+'&page_size=40&mature=false';const r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();
-  gphRes=(j.results||[]).filter(x=>x&&x.url&&(x.width||0)>=500&&/^https:/.test(x.url)).map(x=>({t:x.thumbnail||x.url,u:x.url,w:x.width,h:x.height,a:String(x.creator||'').slice(0,60),l:String(x.license||'').toUpperCase(),n:String(x.title||q).slice(0,80),src:'ov'})).slice(0,36)}
+ try{const u=pg=>'https://api.openverse.org/v1/images/?q='+encodeURIComponent(q)+'&page_size=20&page='+pg+'&mature=false';const js=await Promise.all([1,2].map(pg=>fetch(u(pg)).then(r=>r.ok?r.json():{results:[]}).catch(()=>({results:[]}))));
+  gphRes=js.flatMap(j=>j.results||[]).filter(x=>x&&x.url&&(x.width||0)>=500&&/^https:/.test(x.url)).map(x=>({t:x.thumbnail||x.url,u:x.url,w:x.width,h:x.height,a:String(x.creator||'').slice(0,60),l:String(x.license||'').toUpperCase(),n:String(x.title||q).slice(0,80),src:'ov'})).slice(0,36)}
  catch(e){gphRes=[]}
  gphBusy=false;if(!gphRes.length)return gphSearchWM(q);gphPanel()}
 const GBG=[
